@@ -43,12 +43,14 @@ public class EmplController {
 	@RequestMapping(value = "/empl/add", method = RequestMethod.POST)
 	public String addEmpl(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
 		emplService.addEmpl(empl);
+		redirectAttributes.addFlashAttribute("message", "Registered Successfully~");
 		return "redirect:/empl";
 	}
 	
 	@RequestMapping(value = "/empl/modify", method = RequestMethod.POST)
 	public String modifyEmplInfo(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
 		emplService.modifyEmplInfo(empl);
+		redirectAttributes.addFlashAttribute("message", "Modified Successfully~");
 		return "redirect:/empl";
 	}
 
