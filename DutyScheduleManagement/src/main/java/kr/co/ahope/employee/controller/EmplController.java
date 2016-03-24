@@ -23,7 +23,7 @@ import kr.co.ahope.employee.service.EmplService;
  * 	disp -> display
  * 	info -> information
  */
-
+@RequestMapping(value="/empl")
 @Controller
 public class EmplController {
 	
@@ -33,28 +33,28 @@ public class EmplController {
 	@Resource(name="emplService")
 	private EmplService emplService;
 	
-	@RequestMapping(value = "/empl", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String dispEmplList(Model model){
 		List<Employee> list = emplService.getEmplList();
 		model.addAttribute("emplList", list);
 		return "employee/emplList";
 	}
 	
-	@RequestMapping(value = "/empl/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addEmpl(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
 		emplService.addEmpl(empl);
 		redirectAttributes.addFlashAttribute("message", "Registered Successfully~");
 		return "redirect:/empl";
 	}
 	
-	@RequestMapping(value = "/empl/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modifyEmplInfo(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
 		emplService.modifyEmplInfo(empl);
 		redirectAttributes.addFlashAttribute("message", "Modified Successfully~");
 		return "redirect:/empl";
 	}
 
-	@RequestMapping(value = "/empl/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public String deleteEmpl(@RequestParam(value = "emplId", required = false) int emplId){
 		emplService.deleteEmpl(emplId);
 		return "redirect:/empl";
