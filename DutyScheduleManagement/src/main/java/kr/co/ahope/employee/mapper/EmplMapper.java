@@ -32,4 +32,7 @@ public interface EmplMapper {
 
 	@Delete("DELETE FROM employees WHERE empl_id = #{emplId}")
 	void delete(int emplId);
+	
+	@Select("SELECT email FROM employees where email = #{email}")
+	Employee selectOne(String email);
 }
