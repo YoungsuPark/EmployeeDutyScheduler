@@ -1,0 +1,139 @@
+@CHARSET "UTF-8";
+
+.p-name {
+	text-align: center;
+	font-size: 2em;
+	font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.p-email {
+	text-align: center;
+	font-size: 1em;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.th-left {
+	text-align: left;
+}
+
+.th-right {
+	text-align: right;
+}
+
+.th-center {
+	text-align: center;
+	font-family: 'Georgia', serif;
+	font-style: italic;
+}
+
+.modal {
+	text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+	.modal:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+#ys-container-header {
+	background-color: #9ed392;
+	height: auto;
+	width: 100%;
+	font-family: 'Georgia', serif;
+	font-style: italic
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #f0fff0;
+	position: relative;
+}
+
+.affix ~ .container-fluid {
+	position: relative;
+	top: 70px;
+}
+
+.affix {
+	top: 0;
+	width: 100%;
+	z-index: 9999 !important;
+	-webkit-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
+}
+
+.affix-top {
+	position: static;
+	top: -35px;
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+	height: 1200px;
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+	padding-top: 20px;
+	background-color: #f1f1f1;
+	height: 100%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+	background-color: #555;
+	color: white;
+	padding: 15px;
+	margin: 0;
+	border-radius: 0;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+	.sidenav {
+		height: auto;
+		padding: 15px;
+	}
+	.row.content {
+		height: auto;
+	}
+}
+
+.upload-drop-zone {
+	height: 200px;
+	border-width: 2px;
+	margin-bottom: 20px;
+}
+
+.upload-drop-zone {
+	color: #ccc;
+	border-style: dashed;
+	border-color: #ccc;
+	line-height: 200px;
+	text-align: center
+}
+
+.upload-drop-zone.drop {
+	color: #222;
+	border-color: #222;
+}
