@@ -1,17 +1,22 @@
 $().ready(function(){
 	
 	$.validator.addMethod(
-		       "regex",
-		        function(value, element, regexp) {
-		        var check = false;
-		        return this.optional(element) || regexp.test(value);
-		        },
-		        "Please check your input."
-		        );
+		"regex",
+		function(value, element, regexp) {
+			var check = false;
+			return this.optional(element) || regexp.test(value);
+		},
+		"Please check your input."
+	);
 	
-    $.validator.addMethod("email", function(value, element) {
-        return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i.test(value);
-    }, "Email Address is invalid: Please enter a valid email address.");
+    $.validator.addMethod(
+    	"email",
+    	function(value, element) {
+    		return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z-]+\.[a-zA-Z.]{2,5}$/i.test(value)
+    			&& /^(?=.{2,20}@.{5,15}$)(?=.{7,35}$).*$/i.test(value);
+    	},
+    	"Mail address is invalid"
+    );
 
 	$("#signup_frm").validate({
 		rules : {
@@ -20,18 +25,30 @@ $().ready(function(){
 				minlength: 2,
 				maxlength: 20,
 				regex: /^[가-힣a-zA-Z]+$/
-			},	
+			},
 			email: {
 				required: true,
-				email: true
+				email: true,
+				remote: {
+					url : "/empl/available.html",
+					type : "get",
+					data : {
+						email: function(){
+							return $("#email").val();
+						}
+					}
+				}					
 			}
 		},
 		messages:{
 			name: {
-				required: "Please enter an employee name",
-				minlength: "Your name must be at least 2 characters long",
-				maxlength: "Your name must be less than 20 characters long",
-				regex: "Name is invalid: Korean or English Characters Only"
+				required: "This field is required",
+				minlength: "At least 2 characters long",
+				maxlength: "Less than 20 characters long",
+				regex: "Korean or English characters only"
+			},
+			email: {
+				remote: "Such email address already exsits"
 			}
 		}
 	});
@@ -47,14 +64,14 @@ $().ready(function(){
 			email: {
 				required: true,
 				email: true
-			}
+				}
 		},
 		messages : {
 			name: {
-				required: "Please enter an employee name",
-				minlength: "Your name must be at least 2 characters long",
-				maxlength: "Your name must be less than 20 characters long",
-				regex: "Name is invalid: Korean or English Characters Only"
+				required: "This field is required",
+				minlength: "At least 2 characters long",
+				maxlength: "Less than 20 characters long",
+				regex: "Korean or English characters only"
 			}
 		}
 	});
