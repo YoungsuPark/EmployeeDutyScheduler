@@ -34,4 +34,9 @@ public class EmplServiceImpl implements EmplService {
 	public void deleteEmpl(int emplId) {
 		emplMapper.delete(emplId);
 	}
+	
+	@Override
+	public Employee getMailInfo(String email) {
+		return emplMapper.selectOne(email);
+	}
 }
