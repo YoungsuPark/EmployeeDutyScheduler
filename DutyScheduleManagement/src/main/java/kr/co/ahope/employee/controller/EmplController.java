@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.ahope.employee.domain.Employee;
@@ -33,7 +34,7 @@ public class EmplController {
 	@Resource(name="emplService")
 	private EmplService emplService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String dispEmplList(Model model){
 		List<Employee> list = emplService.getEmplList();
 		model.addAttribute("emplList", list);
@@ -58,5 +59,12 @@ public class EmplController {
 	public String deleteEmpl(@RequestParam(value = "emplId", required = false) int emplId){
 		emplService.deleteEmpl(emplId);
 		return "redirect:/empl";
+	}
+	
+	@RequestMapping(value = "/available")
+	@ResponseBody
+	public String available(@RequestParam(value = "email") String email){
+		Boolean available = emplService.getMailInfo(email) == null;
+		return available.toString();
 	}
 }
