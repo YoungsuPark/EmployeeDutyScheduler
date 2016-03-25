@@ -24,7 +24,7 @@ import kr.co.ahope.employee.service.EmplService;
  * 	disp -> display
  * 	info -> information
  */
-@RequestMapping(value="/empl")
+@RequestMapping("/empl")
 @Controller
 public class EmplController {
 	
@@ -61,7 +61,7 @@ public class EmplController {
 		return "redirect:/empl";
 	}
 	
-	@RequestMapping(value = "/available")
+	@RequestMapping(value = "/available", method = RequestMethod.GET)
 	@ResponseBody
 	public String available(@RequestParam(value = "email") String email){
 		Boolean available = emplService.getMailInfo(email) == null;
