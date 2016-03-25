@@ -21,6 +21,7 @@ import kr.co.ahope.employee.controller.EmplController;
 import kr.co.ahope.employee.domain.Employee;
 import kr.co.ahope.employee.service.EmplService;
 
+@Transactional
 @Service(value = "dsService")
 public class DutyScheduleServiceImpl implements DutyScheduleService {
 
@@ -83,15 +84,13 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 		return resultMap;
 	}	
 	
-	@Transactional
 	@Override
 	public void addDutySchedule(MultiDutySchedule dutySchedules) {
 		for ( DutySchedule dutySchedule : dutySchedules.getDutySchedules() ) {
 			dsMapper.insert(dutySchedule);
 		}
 	}
-	
-	@Transactional
+
 	@Override
 	public void modifyDutySchedule(MultiDutySchedule dutySchedules) {
 		for ( DutySchedule dutySchedule : dutySchedules.getDutySchedules() ) {
@@ -113,12 +112,11 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 		int tomorrowMonth = (int) tomorrowDateInfo.get("tomorrowMonth");
 		int tomorrowYear = (int) tomorrowDateInfo.get("tomorrowYear");
 		DutySchedule tomorrowDuty = dsMapper.selectOne(tomorrowDate, tomorrowMonth+1, tomorrowYear);
-		
 		String todayDutyEmplEmail = todayDuty.getEmail();
 		String todayDutyEmplName = todayDuty.getName();
 		String tomorrowDutyEmplEmail = tomorrowDuty.getEmail();
 		String tomorrowDutyEmplName = tomorrowDuty.getName();
-
+		// send email
 		mailUtil.setFrom("nice2seeu86@gmail.com");
 		mailUtil.setSubject("디스크리스 당직 근무 알림");
 		mailUtil.setTo(todayDutyEmplEmail);
