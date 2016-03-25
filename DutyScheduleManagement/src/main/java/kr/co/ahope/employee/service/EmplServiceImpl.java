@@ -5,16 +5,18 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ahope.employee.domain.Employee;
 import kr.co.ahope.employee.mapper.EmplMapper;
-
+@Transactional
 @Service(value = "emplService")
 public class EmplServiceImpl implements EmplService {
 
 	@Resource(name = "emplMapper")
 	private EmplMapper emplMapper;
 	
+	@Transactional(readOnly=true)
 	@Override
 	public List<Employee> getEmplList() {
 		return emplMapper.select();
@@ -35,6 +37,7 @@ public class EmplServiceImpl implements EmplService {
 		emplMapper.delete(emplId);
 	}
 	
+	@Transactional(readOnly=true)
 	@Override
 	public Employee getMailInfo(String email) {
 		return emplMapper.selectOne(email);
