@@ -67,7 +67,7 @@ public class DutyScheduleController {
 	}
 	
 	@RequestMapping(value = "/write_ok", method = RequestMethod.POST)
-	public String addDutySchedule(@ModelAttribute("dutySchedules") MultiDutySchedule dutySchedules, RedirectAttributes redirectAttributes) {
+	public String saveDutySchedule(@ModelAttribute("dutySchedules") MultiDutySchedule dutySchedules, RedirectAttributes redirectAttributes) {
 		int determineStatus = 0; //check all emplDutyScheduleId to decide whether new data or not
 		for ( int i = 0; i< dutySchedules.getDutySchedules().size(); i++){
 			determineStatus += dutySchedules.getDutySchedules().get(i).getEmplDutyScheduleId();
