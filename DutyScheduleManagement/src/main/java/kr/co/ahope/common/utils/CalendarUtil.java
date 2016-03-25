@@ -115,4 +115,33 @@ public class CalendarUtil {
 		return DEFAULT_DATE;
 	}
 
+	public Map<String, Object> getTommorowDateInfo(int year2, int month2, int date2) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int todayDate = date2;
+		int todayMonth = month2;
+		int todayYear = year2;
+		int tomorrowDate;
+		int tomorrowMonth;
+		int tomorrowYear = year2;
+		cal.set(year, month + 1, 0);
+		currentMonthLastDate = cal.get(Calendar.DATE);
+		if (todayDate == currentMonthLastDate) {
+			tomorrowDate = 1;
+			if (todayMonth == 11) {
+				tomorrowMonth = 0;
+				tomorrowYear = todayYear + 1;
+			} else {
+				tomorrowMonth = todayMonth + 1;
+			}
+		} else {
+			tomorrowDate = todayDate + 1;
+			tomorrowMonth = todayMonth;
+			tomorrowYear = todayYear;
+		}
+		resultMap.put("tomorrowDate", tomorrowDate);
+		resultMap.put("tomorrowMonth", tomorrowMonth);
+		resultMap.put("tomorrowYear", tomorrowYear);
+		return resultMap;
+	}
+
 }
