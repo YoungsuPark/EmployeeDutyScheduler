@@ -100,21 +100,27 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 	}
 	
 	@Transactional(readOnly=true)
-	@Scheduled(cron = "0 30 09 * * *")
+	@Scheduled(cron = "0 35 15 * * *")
 	public void sendMail(){	
-		
+		//for today Duty
 		int date = calendarUtil.getDEFAULT_DATE();
-		int month = calendarUtil.getDEFAULT_MONTH() + 1;
+		int month = calendarUtil.getDEFAULT_MONTH();
 		int year = calendarUtil.getDEFAULT_YEAR();
-		DutySchedule todayDuty = dsMapper.selectOne(date, month, year);
-		DutySchedule tomorrowDuty = dsMapper.selectOne(date+1, month, year);
+		DutySchedule todayDuty = dsMapper.selectOne(date, month+1, year);
+		// for tomorrow Duty
+		Map<String, Object> tomorrowDateInfo = calendarUtil.getTommorowDateInfo(date, month, year);
+		int tomorrowDate = (int) tomorrowDateInfo.get("tomorrowDate");
+		int tomorrowMonth = (int) tomorrowDateInfo.get("tomorrowMonth");
+		int tomorrowYear = (int) tomorrowDateInfo.get("tomorrowYear");
+		DutySchedule tomorrowDuty = dsMapper.selectOne(tomorrowDate, tomorrowMonth+1, tomorrowYear);
+		
 		String todayDutyEmplEmail = todayDuty.getEmail();
 		String todayDutyEmplName = todayDuty.getName();
 		String tomorrowDutyEmplEmail = tomorrowDuty.getEmail();
 		String tomorrowDutyEmplName = tomorrowDuty.getName();
-		
+
 		mailUtil.setFrom("nice2seeu86@gmail.com");
-		mailUtil.setSubject("디스크리스 당직 근무 알림");	
+		mailUtil.setSubject("디스크리스 당직 근무 알림");
 		mailUtil.setTo(todayDutyEmplEmail);
 		mailUtil.setContent(todayDutyEmplName + "님은 오늘 당직 근무 이십니다.");
 		mailUtil.mailSender();

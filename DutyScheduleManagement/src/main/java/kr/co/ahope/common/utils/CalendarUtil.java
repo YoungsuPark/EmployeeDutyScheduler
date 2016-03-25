@@ -115,7 +115,7 @@ public class CalendarUtil {
 		return DEFAULT_DATE;
 	}
 
-	public Map<String, Object> getTommorowDateInfo(int year2, int month2, int date2) {
+	public Map<String, Object> getTommorowDateInfo(int date2, int month2, int year2) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		int todayDate = date2;
 		int todayMonth = month2;
