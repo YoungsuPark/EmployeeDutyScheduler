@@ -26,7 +26,7 @@ import kr.co.ahope.employee.controller.EmplController;
  * display -> disp
  * 
  */
-
+@RequestMapping("/schedule")
 @Controller
 public class DutyScheduleController {
 	
@@ -35,47 +35,49 @@ public class DutyScheduleController {
 	@Resource(name="dsService")
 	private DutyScheduleService dsService;
 	
-	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String dispDutySchedule( @RequestParam(value="month", defaultValue ="-99", required=false) int month, 
 									@RequestParam(value="year", defaultValue="-99", required=false) int year, Model model){
-		
-		logger.debug("month : " + month + "year : " + year);
-		Map<String, Object> resultMap = dsService.getDutySchedules(month, year);
-		
+		Map<String, Object> resultMap = dsService.getInfoForDutySchedules(month, year);
+		//for calendar
+		model.addAttribute("date", resultMap.get("date"));
 		model.addAttribute("month", resultMap.get("month"));
 		model.addAttribute("year", resultMap.get("year"));
-		model.addAttribute("date", resultMap.get("date"));
 		model.addAttribute("weekCount", resultMap.get("weekCount"));
 		model.addAttribute("currentCalendarDay",resultMap.get("currentCalendarDay"));
+		//for duty schedule list
 		model.addAttribute("dutyScheduleList", resultMap.get("dutyScheduleList"));
 		return "dutyschedule/scheduleList";
 	}
 	
-	@RequestMapping(value = "/schedule/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String dispDutySchedulingForm( @RequestParam(value="month", defaultValue ="-99", required=false) int month, 
 										  @RequestParam(value="year", defaultValue="-99", required=false) int year, Model model) {
 		Map<String, Object> resultMap = dsService.getInfoForDutyScheduleForm(month, year);
+		//for calendar
 		model.addAttribute("month", resultMap.get("month"));
 		model.addAttribute("year", resultMap.get("year"));
 		model.addAttribute("weekCount", resultMap.get("weekCount"));
 		model.addAttribute("currentCalendarDay",resultMap.get("currentCalendarDay"));
+		//for duty schedule list 
 		model.addAttribute("dutyScheduleList", resultMap.get("dutyScheduleList"));
+		//for employee list, to edit duty schedules
 		model.addAttribute("emplList", resultMap.get("emplList"));
 		return "dutyschedule/scheduleUpForm";
 	}
 	
-	@RequestMapping(value = "/schedule/write_ok", method = RequestMethod.POST)
+	@RequestMapping(value = "/write_ok", method = RequestMethod.POST)
 	public String addDutySchedule(@ModelAttribute("dutySchedules") MultiDutySchedule dutySchedules, RedirectAttributes redirectAttributes) {
-		int checkId = 0; //check all emplDutyScheduleId to decide whether new data for addition or not
+		int determineStatus = 0; //check all emplDutyScheduleId to decide whether new data or not
 		for ( int i = 0; i< dutySchedules.getDutySchedules().size(); i++){
-			checkId += dutySchedules.getDutySchedules().get(i).getEmplDutyScheduleId();
+			determineStatus += dutySchedules.getDutySchedules().get(i).getEmplDutyScheduleId();
 		}
-		if( checkId == 0){
+		if( determineStatus == 0){
+			logger.info("New");
 			dsService.addDutySchedule(dutySchedules);
-			logger.debug("New");
 		} else {
+			logger.info("Modify");
 			dsService.modifyDutySchedule(dutySchedules);
-			logger.debug("Modify");
 		}
 		return "redirect:/schedule";
 	}
