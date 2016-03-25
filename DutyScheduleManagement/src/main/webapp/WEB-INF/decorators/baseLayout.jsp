@@ -36,7 +36,6 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/empl">EmployeeManagement</a></li>
 				<li><a href="/schedule">DutyScheduleManagement</a></li>
-				<li><a href="#">Login</a></li>
 			</ul>
 		</div>
 	</div>
