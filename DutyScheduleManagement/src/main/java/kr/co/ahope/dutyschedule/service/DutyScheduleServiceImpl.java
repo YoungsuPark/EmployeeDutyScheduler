@@ -24,10 +24,11 @@ import kr.co.ahope.employee.service.EmplService;
 @Service(value = "dsService")
 public class DutyScheduleServiceImpl implements DutyScheduleService {
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(EmplController.class);
 
 	@Resource(name="emplService")
-	private EmplService emplService;	
+	EmplService emplService;	
 	
 	@Resource(name = "dsMapper")
 	DutyScheduleMapper dsMapper;
@@ -38,15 +39,17 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 	@Autowired
 	MailUtil mailUtil;
 	
+	@Transactional(readOnly=true)
 	@Override
-	public Map<String, Object> getDutySchedules(int requestMonth, int requestYear) {
+	public Map<String, Object> getInfoForDutySchedules(int requestMonth, int requestYear) {
+		// for date information
 		Map<String, Object> resultMap = calendarUtil.getDateInfo(requestMonth, requestYear);
-		
 		requestMonth = (int) resultMap.get("month") + 1;
 		requestYear = (int) resultMap.get("year");
 		int spaceCount = (int) resultMap.get("currentMonthStartDay");
-		
+		// for duty schedule list
 		List<DutySchedule> dutyScheduleList = dsMapper.select(requestMonth, requestYear);
+		// If there exists an duty schedule list, it has to be checked empty space on the first week
 		if( !dutyScheduleList.isEmpty() ){
 			DutySchedule addDummySpace = new DutySchedule(0, 0, 0, 0, 0);
 			for( int i = 0; i < spaceCount - 1; i++ ){
@@ -57,15 +60,15 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 		return resultMap;
 	}
 	
+	@Transactional(readOnly=true)
 	@Override
-	public Map<String, Object> getInfoForDutyScheduleForm(int requestMonth, int requestYear) {
-		List<Employee> emplList = emplService.getEmplList();
-		Map<String, Object> resultMap = calendarUtil.getDateInfo(requestMonth, requestYear);
-		
+	public Map<String, Object> getInfoForDutyScheduleForm(int requestMonth, int requestYear) {	
+		// for date information
+		Map<String, Object> resultMap = calendarUtil.getDateInfo(requestMonth, requestYear);	
 		requestMonth = (int) resultMap.get("month") + 1;
 		requestYear = (int) resultMap.get("year");
 		int spaceCount = (int) resultMap.get("currentMonthStartDay");	
-
+		// If there exists an duty schedule list, it has to be checked empty space on the first week
 		List<DutySchedule> dutyScheduleList = dsMapper.select(requestMonth, requestYear);
 		if( !dutyScheduleList.isEmpty() ){
 			DutySchedule addDummySpace = new DutySchedule(0, 0, 0, 0, 0);
@@ -74,6 +77,8 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 			}
 			resultMap.put("dutyScheduleList", dutyScheduleList);
 		}
+		// for employee list 
+		List<Employee> emplList = emplService.getEmplList();
 		resultMap.put("emplList", emplList);
 		return resultMap;
 	}	
@@ -94,7 +99,8 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 		}
 	}
 	
-	@Scheduled(cron = "0 57 18 * * *")
+	@Transactional(readOnly=true)
+	@Scheduled(cron = "0 30 09 * * *")
 	public void sendMail(){	
 		
 		int date = calendarUtil.getDEFAULT_DATE();
@@ -106,26 +112,14 @@ public class DutyScheduleServiceImpl implements DutyScheduleService {
 		String todayDutyEmplName = todayDuty.getName();
 		String tomorrowDutyEmplEmail = tomorrowDuty.getEmail();
 		String tomorrowDutyEmplName = tomorrowDuty.getName();
-		logger.debug("todayDutyEmplEmail : " + todayDutyEmplEmail);
-		logger.debug("todayDutyEmplName : " + todayDutyEmplName);
-		logger.debug("tomorrowDutyEmplEmail : " + tomorrowDutyEmplEmail);
-		logger.debug("tomorrowDutyEmplName : " + tomorrowDutyEmplName);
-	
+		
 		mailUtil.setFrom("nice2seeu86@gmail.com");
-		mailUtil.setSubject("디스크리스 당직 근무 알림");
-		mailUtil.setTo("nice2seeu86@gmail.com");
-		mailUtil.setContent("내일 당직 근무이십니다.");
+		mailUtil.setSubject("디스크리스 당직 근무 알림");	
+		mailUtil.setTo(todayDutyEmplEmail);
+		mailUtil.setContent(todayDutyEmplName + "님은 오늘 당직 근무 이십니다.");
 		mailUtil.mailSender();
-		
-		mailUtil.setTo("youngsu.park@ahope.co.kr");
-		mailUtil.setContent("내일 당직 근무이십니다.");
+		mailUtil.setTo(tomorrowDutyEmplEmail);
+		mailUtil.setContent(tomorrowDutyEmplName + "님은 내일 당직 근무 이십니다.");
 		mailUtil.mailSender();
-		
-	//	mailUtil.setTo(todayDutyEmplEmail);
-	//	mailUtil.setContent(todayDutyEmplName + "님은 오늘 당직 근무 이십니다.");
-	//	mailUtil.mailSender();
-	//	mailUtil.setTo(tomorrowDutyEmplEmail);
-	//	mailUtil.setContent(tomorrowDutyEmplName + "님은 내일 당직 근무 이십니다.");
-	//	mailUtil.mailSender();
 	}
 }

@@ -10,7 +10,7 @@ public interface DutyScheduleService {
 
 	void modifyDutySchedule(MultiDutySchedule dutySchedules);
 
-	Map<String, Object> getDutySchedules(int month, int year);
+	Map<String, Object> getInfoForDutySchedules(int month, int year);
 
 	Map<String, Object> getInfoForDutyScheduleForm(int month, int year);
 
