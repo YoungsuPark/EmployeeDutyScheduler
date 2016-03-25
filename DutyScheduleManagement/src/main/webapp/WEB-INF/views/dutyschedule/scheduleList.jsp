@@ -63,13 +63,13 @@
 									<td>
 										<c:choose>
 											<c:when test="${row.date == date && row.month == month+1 }">
-												<div class="container" style="width:130px; height:100px; color: pink">
+												<div style="width:140px; height:100px; color: pink">
 											</c:when>
 											<c:otherwise>
-												<div class="container" style="width:130px; height:100px">
+												<div style="width:140px; height:100px">
 											</c:otherwise>
 										</c:choose>			
-											<div><p class="p-name">${row.name}</p></div>
+											<div><p class="p-name" >${row.name}</p></div>
 											<div><p class="p-email">${row.email}</p></div>		
 										</div>
 									</td>

@@ -11,7 +11,7 @@
 							<a href="/schedule"><button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> return </button></a>
 						</th>
 						<th class="th-right" colspan="1"><a href="/schedule/write?month=${month-1}&year=${year}">◀</a></th>
-						<th class="th-center" colspan="1"><h3>SchedulingMode<br>${year}. ${month+1 }</h3></th>
+						<th class="th-center" colspan="1"><h3>Scheduling<br>Mode<br>${year}. ${month+1 }</h3></th>
 						<th class="th-left" colspan="1"><a href="/schedule/write?month=${month+1 }&year=${year}">▶</a></th>
 						<th class="th-right"colspan="2">
 							<button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Save Schedule </button>
@@ -63,7 +63,7 @@
 											</c:when>
 											<c:otherwise>
 												<td>
-													<div class="container" style="width:120px; height:100px">
+													<div style="width:140px; height:115px">
 														<div><p class="p-name" id="name${row.date}">${row.name}</p></div>
 														<div><p class="p-email" id="email${row.date}">${row.email}</p></div>		
 														<input class="form-control" id="empl${row.date}" name="dutySchedules[${row.date-1}].emplId" type="hidden" value="${row.emplId }">
@@ -84,11 +84,11 @@
 									<c:forEach begin="${i*7}" end="${i*7+6}" var="j">
 										<c:choose>
 											<c:when test="${currentCalendarDay[j] > 35}">
-												<td><div class="container" style="width:120px; height:100px"></div></td>
+												<td><div style="width:140px; height:115px"></div></td>
 											</c:when>
 											<c:otherwise>
 												<td>
-													<div class="container" style="width:120px; height:100px">
+													<div style="width:140px; height:115px">
 														<h4><span class="label label-success" id="name${currentCalendarDay[j]}">Empty</span></h4>
 														<h5><span class="label label-success" id="email${currentCalendarDay[j]}"></span></h5>
 														<input class="form-control" id="empl${currentCalendarDay[j]}" name="dutySchedules[${currentCalendarDay[j]-1}].emplId" type="hidden" value="39">
