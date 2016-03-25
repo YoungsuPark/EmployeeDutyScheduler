@@ -114,6 +114,5 @@ public class CalendarUtil {
 	public int getDEFAULT_DATE() {
 		return DEFAULT_DATE;
 	}
-	
-	
+
 }
