@@ -19,35 +19,32 @@ import kr.co.ahope.employee.domain.Employee;
 import kr.co.ahope.employee.service.EmplService;
 
 /**
- * Naming Rule :
- * 	empl -> employee
- * 	disp -> display
- * 	info -> information
+ * Naming Rule : empl -> employee disp -> display info -> information
  */
 @RequestMapping("/empl")
 @Controller
 public class EmplController {
-	
+
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(EmplController.class);
 
-	@Resource(name="emplService")
+	@Resource(name = "emplService")
 	private EmplService emplService;
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String dispEmplList(Model model){
+
+	@RequestMapping
+	public String dispEmplList(Model model) {
 		List<Employee> list = emplService.getEmplList();
 		model.addAttribute("emplList", list);
 		return "employee/emplList";
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addEmpl(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
+	public String addEmpl(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes) {
 		emplService.addEmpl(empl);
 		redirectAttributes.addFlashAttribute("message", "Registered Successfully~");
 		return "redirect:/empl";
 	}
-	
+
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modifyEmplInfo(@ModelAttribute("employee") Employee empl, RedirectAttributes redirectAttributes){
 		emplService.modifyEmplInfo(empl);
@@ -56,15 +53,15 @@ public class EmplController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String deleteEmpl(@RequestParam(value = "emplId", required = false) int emplId){
+	public String deleteEmpl(@RequestParam(value = "emplId", required = false) int emplId) {
 		emplService.deleteEmpl(emplId);
 		return "redirect:/empl";
 	}
-	
-	@RequestMapping(value = "/available", method = RequestMethod.GET)
+
+	@RequestMapping("/available")
 	@ResponseBody
-	public String available(@RequestParam(value = "email") String email){
-		Boolean available = emplService.getMailInfo(email) == null;
+	public String available(@RequestParam(value = "email") String email) {
+		Boolean available = emplService.findOne(email) == null;
 		return available.toString();
 	}
 }
