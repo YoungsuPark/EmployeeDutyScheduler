@@ -14,6 +14,8 @@ public interface EmplService {
 
 	void deleteEmpl(int emplId);
 
-	Employee getMailInfo(String email);
+	Employee findOne(String email);
+	
+	Employee findOne(int emplId);
 
 }
