@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <decorators defaultdir="/WEB-INF/decorators">
+	<excludes>
+		<pattern>/empl/available*</pattern>
+	</excludes>
 	<decorator name="main" page="baseLayout.jsp">
 		<pattern>/*</pattern>
 	</decorator>
