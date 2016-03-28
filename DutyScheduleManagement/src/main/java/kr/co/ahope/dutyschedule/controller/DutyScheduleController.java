@@ -1,5 +1,6 @@
 package kr.co.ahope.dutyschedule.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.ahope.dutyschedule.domain.DutySchedule;
 import kr.co.ahope.dutyschedule.domain.MultiDutySchedule;
 import kr.co.ahope.dutyschedule.service.DutyScheduleService;
 import kr.co.ahope.employee.controller.EmplController;
@@ -69,8 +71,10 @@ public class DutyScheduleController {
 	@RequestMapping(value = "/write_ok", method = RequestMethod.POST)
 	public String saveDutySchedule(@ModelAttribute("dutySchedules") MultiDutySchedule dutySchedules, RedirectAttributes redirectAttributes) {
 		int determineStatus = 0; //check all emplDutyScheduleId to decide whether new data or not
-		for ( int i = 0; i< dutySchedules.getDutySchedules().size(); i++){
-			determineStatus += dutySchedules.getDutySchedules().get(i).getEmplDutyScheduleId();
+		int size = dutySchedules.getDutySchedules().size();
+		List<DutySchedule> duties = dutySchedules.getDutySchedules();
+		for ( int i = 0; i< size; i++){
+			determineStatus += duties.get(i).getEmplDutyScheduleId();
 		}
 		if( determineStatus == 0){
 			logger.info("New");
