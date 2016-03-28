@@ -11,7 +11,6 @@ import kr.co.ahope.employee.controller.EmplController;
 
 public class CalendarUtil {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(EmplController.class);
 
 	Calendar cal = Calendar.getInstance();
@@ -19,9 +18,9 @@ public class CalendarUtil {
 	private int year;
 	private int month;
 	private int date;
-	private final int DEFAULT_YEAR = cal.get(Calendar.YEAR);
-	private final int DEFAULT_MONTH = cal.get(Calendar.MONTH);
-	private final int DEFAULT_DATE = cal.get(Calendar.DATE);
+	private int currentYear = cal.get(Calendar.YEAR);
+	private int currentMonth = cal.get(Calendar.MONTH);
+	private int currentDate = cal.get(Calendar.DATE);
 	private int prevMonthStartDay;
 	private int prevMonthLastDate;
 	private int currentMonthStartDay;
@@ -31,11 +30,11 @@ public class CalendarUtil {
 	private int[] currentCalendarDay = new int[42];
 
 	public Map<String, Object> getDateInfo(int requestMonth, int requestYear) {
-
+		logger.debug("currentDate : " + currentDate);
 		if (requestYear == -99 && requestMonth == -99) {
-			year = DEFAULT_YEAR;
-			month = DEFAULT_MONTH;
-			date = DEFAULT_DATE;
+			year = currentYear;
+			month = currentMonth;
+			date = currentDate;
 		} else if (requestMonth == 12) {
 			date = 1;
 			month = 0;
@@ -48,8 +47,8 @@ public class CalendarUtil {
 		} else {
 			year = requestYear;
 			month = requestMonth;
-			if (month == DEFAULT_MONTH && year == DEFAULT_YEAR) {
-				date = DEFAULT_DATE;
+			if (month == currentMonth && year == currentYear) {
+				date = currentDate;
 			} else {
 				date = 0;
 			}
@@ -103,16 +102,28 @@ public class CalendarUtil {
 		return dateInfo;
 	}
 
-	public int getDEFAULT_YEAR() {
-		return DEFAULT_YEAR;
+	public int getCurrentYear() {
+		return currentYear;
 	}
 
-	public int getDEFAULT_MONTH() {
-		return DEFAULT_MONTH;
+	public void setCurrentYear(int currentYear) {
+		this.currentYear = currentYear;
 	}
 
-	public int getDEFAULT_DATE() {
-		return DEFAULT_DATE;
+	public int getCurrentMonth() {
+		return currentMonth;
+	}
+
+	public void setCurrentMonth(int currentMonth) {
+		this.currentMonth = currentMonth;
+	}
+
+	public int getCurrentDate() {
+		return currentDate;
+	}
+
+	public void setCurrentDate(int currentDate) {
+		this.currentDate = currentDate;
 	}
 
 	public Map<String, Object> getTommorowDateInfo(int date2, int month2, int year2) {
