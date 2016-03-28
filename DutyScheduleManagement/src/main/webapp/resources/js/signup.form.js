@@ -29,15 +29,15 @@ $().ready(function(){
 			email: {
 				required: true,
 				email: true,
-				remote: {
-					url : "/empl/available.html",
-					type : "get",
-					data : {
-						email: function(){
+				remote : {
+					url: "/empl/available.html",
+					type: "get",
+					date: {
+						email : function(){
 							return $("#email").val();
 						}
 					}
-				}					
+				}
 			}
 		},
 		messages:{
@@ -48,7 +48,7 @@ $().ready(function(){
 				regex: "Korean or English characters only"
 			},
 			email: {
-				remote: "Such email address already exsits"
+				remote: "Such email address already exsits!"
 			}
 		}
 	});
@@ -64,7 +64,7 @@ $().ready(function(){
 			email: {
 				required: true,
 				email: true
-				}
+			}
 		},
 		messages : {
 			name: {
